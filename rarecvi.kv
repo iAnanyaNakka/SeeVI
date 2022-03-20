@@ -1,0 +1,638 @@
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+#:import Clock kivy.clock.Clock
+
+<RareStageToggleButton>:
+	font_name:"Pollywog.ttf"
+	color:0,1,0,1
+	on_press:app.rare_stage_toggle_button_pressed(self)
+
+<Label>:
+	color:0,0,0,1
+
+<PreferredColorToggleButton>:
+	font_name:"Pollywog.ttf"
+	color:0,1,0,1
+	on_press:app.preferred_color_toggle_button_pressed(self)
+
+<Button>:
+	size_hint_x:0.85
+	pos_hint:{"center_x":0.5}
+	font_size:"20sp"
+	
+Screen:
+	ScreenManager:
+		id:sm
+		transition:NoTransition()
+		Screen:
+			name:"signin"
+			canvas.before:
+				Color:
+					rgba:(0,1,0,1)
+				RoundedRectangle:
+					size:self.size
+					pos:self.pos
+
+			id:login_screen
+			on_enter:app.anim()
+		
+			FloatLayout:
+				id:anim_item
+				canvas.before:
+					Color:
+						rgba:app.theme_cls.primary_color
+					RoundedRectangle:
+						size:self.size
+						pos:self.pos
+						radius:[100,]
+						
+				pos_hint:{"y":1}
+				size_hint:1,0.60
+				
+			MDIcon:
+				icon:"account"
+				halign:"center"
+				pos_hint:{"center_y":0.86}
+				font_size:"165sp"
+
+			Label:
+				text:"SeeVI"
+				pos_hint:{"center_y":0.85,'center_x':0.1}
+				font_name:"Pollywog.ttf"
+				font_size:"20sp"
+
+
+			MDLabel:
+				id:wel
+				text:"Welcome Back"
+				opacity:0
+				pos_hint:{"center_y":0.72}
+				halign:"center"
+				font_style:"H6"
+				font_name:"Pollywog.ttf"
+				
+			MDLabel:
+				id:wel1
+				text:"Login"
+				opacity:0
+				pos_hint:{"center_y":0.67}
+				halign:"center"
+				font_style:"H5"
+				font_name:"Pollywog.ttf"
+			
+			BoxLayout:
+				orientation:"vertical"
+				spacing:18
+				padding:30
+				size_hint_y:0.25
+				pos_hint:{"top":0.59}
+				
+				MDTextFieldRound:
+					id:user
+					hint_text:"Username"
+					cursor_width:"3sp"
+					cursor_color:0,0,0,1
+					size_hint:0.8,1
+					pos_hint:{"center_x":0.5}
+					icon_left:"email"
+					font_name:"Pollywog.ttf"
+						
+				MDTextFieldRound:
+					id:passwd
+					hint_text:"Password"
+					password:True
+					cursor_width:"3sp"
+					cursor_color:0,0,0,1
+					size_hint:0.8,1
+					pos_hint:{"center_x":0.5}
+					icon_left:"key-variant"
+					font_name:"Pollywog.ttf"
+				
+			MDRectangleFlatButton:
+				text:'Login'
+				theme_text_color:"Custom"
+				text_color:0,0,0,1
+				pos_hint:{"center_y":0.25,"center_x":0.5}
+				font_name:"Pollywog.ttf"
+				on_release:
+					app.login_user(sm,login_screen,user,passwd)
+				
+					
+			MDRectangleFlatButton:
+				text:'...or SignUp'
+				pos_hint:{"center_y":0.15,"center_x":0.5}
+				font_name:"Pollywog.ttf"
+				theme_text_color:"Custom"
+				text_color:0,0,0,1
+				on_release:
+					sm.current="signup"
+					wel.opacity=0
+					wel1.opacity=0
+					anim_item.pos_hint={"y":1}
+			
+											
+		Screen:
+			name:"signup"
+			id:signup_screen
+			MDLabel:
+				text:"SignUp"
+				pos_hint:{"center_y":0.97}
+				halign:"center"
+				font_style:"H5"
+				font_name:"Pollywog.ttf"
+			
+		 
+			MDTextField:
+				id:username
+				hint_text:"Username        "
+				mode:"rectangle"
+				cursor_width:"3sp"
+				cursor_color:0,0,0,1
+				pos_hint:{"center_x":0.5,"top":0.93}
+				size_hint:0.8,0.09
+				font_size:"20sp"
+				font_name:"Pollywog.ttf"
+				
+			MDTextField:
+				id:password
+				hint_text:"Password        "
+				password:True
+				mode:"rectangle"
+				cursor_width:"3sp"
+				cursor_color:0,0,0,1
+				pos_hint:{"center_x":0.5,"top":0.83}
+				size_hint:0.8,0.09
+				font_size:"20sp"
+				font_name:"Pollywog.ttf"
+				
+			MDTextField:
+				id:name
+				hint_text:"Name      "
+				mode:"rectangle"
+				cursor_width:"3sp"
+				cursor_color:0,0,0,1
+				pos_hint:{"center_x":0.5,"top":0.73}
+				size_hint:0.8,0.09
+				font_size:"20sp"
+				font_name:"Pollywog.ttf"
+					
+			MDTextField:
+				id:age
+				mode:"rectangle"
+				hint_text:"Age        "
+				cursor_width:"3sp"
+				cursor_color:0,0,0,1
+				pos_hint:{"center_x":0.5,"top":0.638}
+				size_hint:0.8,0.09
+				font_size:"20sp"
+				font_name:"Pollywog.ttf"
+				input_filter:'int'
+				
+			GridLayout:
+				padding:5
+				pos_hint:{"center_x":0.5,"top":0.54}
+				size_hint:0.85,0.1
+				cols:4
+				rows:1
+
+				MDLabel:
+					text:"CVI STAGE"
+					font_name:"Pollywog.ttf"
+
+				RareStageToggleButton:
+					text:"Stage1"
+					state:"down"
+					color:0,1,0,1
+
+				RareStageToggleButton:
+					text:"Stage2"
+					color:0,1,0,1
+
+				RareStageToggleButton:
+					text:"Stage3"
+					color:0,1,0,1
+
+			MDLabel:
+				text:"Color Preferred"
+				pos_hint:{'center_y':0.4}
+				halign:"center"
+				font_name:"Pollywog.ttf"
+				
+
+			GridLayout:
+				padding:5
+				pos_hint:{"center_x":0.5,"top":0.37}
+				size_hint:0.85,0.1
+				cols:6
+				rows:1
+
+				PreferredColorToggleButton:
+					text:"RED"
+					size_hint_x:0.5
+				
+				PreferredColorToggleButton:
+					text:"GREEN"
+					size_hint_x:0.5
+
+				PreferredColorToggleButton:
+					text:"PURPLE"
+					size_hint_x:0.5
+
+				PreferredColorToggleButton:
+					text:"BLUE"
+					size_hint_x:0.5
+				
+				PreferredColorToggleButton:
+					text:"YELLOW"
+					size_hint_x:0.5
+				
+				PreferredColorToggleButton:
+					text:"NEON"
+					size_hint_x:0.5
+				
+			
+			MDTextField:
+				id:posture_preferred
+				hint_text:"Posture Preferred        "
+				mode:"rectangle"
+				cursor_width:"3sp"
+				cursor_color:0,0,0,1
+				pos_hint:{"center_x":0.5,"top":0.26}
+				size_hint:0.8,0.09
+				font_size:"20sp"
+				font_name:"Pollywog.ttf"
+				
+			MDTextField:
+				id:preference 
+				hint_text:"Preference      "
+				mode:"rectangle"
+				cursor_width:"3sp"
+				cursor_color:0,0,0,1
+				pos_hint:{"center_x":0.5,"top":0.16}
+				size_hint:0.8,0.09
+				font_size:"20sp"
+				font_name:"Pollywog.ttf"
+
+			MDRectangleFlatButton:
+				text:'SignUp'
+				pos_hint:{"center_y":0.025,"x":0.1}
+				font_name:"Pollywog.ttf"
+				on_release:
+					app.signup(sm,signup_screen,username,password,name,age,posture_preferred,preference)
+					wel.opacity=0
+					wel1.opacity=0
+					anim_item.pos_hint={"y":1}
+					
+					
+			MDIconButton:
+				text:'Back'
+				icon:"keyboard-backspace"
+				text_color:app.theme_cls.primary_color
+				pos_hint:{"center_y":0.97,"center_x":0.18}
+				on_release:
+					sm.current="signin"
+					wel.opacity=0
+					wel1.opacity=0
+					anim_item.pos_hint={"y":1}
+					
+
+		Screen:
+			name:'stage1'
+			on_enter:
+				sm.current = 'stage1_1_screen'
+				Clock.unschedule(app.rotatestage1obj)
+				Clock.schedule_interval(app.rotatestage1obj,0.05)
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+
+		Screen:
+			name:'stage1_1_screen'
+			on_enter:
+				app.animate_ball(ball)
+				Clock.unschedule(app.change_window1_pages)
+				Clock.schedule_interval(app.change_window1_pages,30)
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+
+			Widget:
+				size:root.size
+				pos_hint:{"center_x":0.5,"center_y":0.5}
+				Ball:
+					id:ball
+					background_color:0,0,0,0
+					size_hint:None,None
+					size:50,50
+					canvas.before:
+						Color:
+							rgba:app.object_color
+						Ellipse:
+							pos:self.pos
+							size:self.size
+
+		Screen:
+			name:'stage1_2_screen'
+			on_enter:
+				app.animate_ball2(ball2)
+				
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+
+			Widget:
+				size:root.size
+				pos_hint:{"center_x":0.5,"center_y":0.5}
+				Ball2:
+					id:ball2
+					background_color:0,0,0,0
+					size_hint:None,None
+					size:50,50
+					canvas.before:
+						Color:
+							rgba:app.object_color
+						Ellipse:
+							pos:self.pos
+							size:self.size
+
+
+		Screen:
+			name:'stage1_3_screen'
+			on_enter:app.animate_rectangular_ball(ball_rect)
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			Widget:
+				size:root.size
+				pos_hint:{"center_x":0.5,"center_y":0.5}
+
+				RectangularBall:
+					id:ball_rect
+					background_color:app.object_color
+					size_hint:None,None
+					size:100,50
+					background_normal:""
+		
+		
+		Screen:
+			name:'stage1_4_screen'
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+
+			Button:
+				id:stage1page3object
+				size_hint:0.5,0.5
+				pos_hint:{"center_x":0.5,'center_y':0.5}
+				background_normal:""
+				canvas.before:
+					PushMatrix
+					Rotate:
+						angle:app.stage1page3objectangle
+						origin:self.center
+				canvas.after:
+					PopMatrix
+
+###################################################### STAGE 2 #################################
+		Screen:
+			name:'stage2'
+			on_enter:
+				sm.current = 'stage2_1_screen'
+				app.init_stage2()
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+
+		Screen:
+			on_enter:
+				Clock.unschedule(app.change_window2_pages)
+				Clock.schedule_interval(app.change_window2_pages,5)
+			name:'stage2_1_screen'
+			canvas.before:
+				Color:
+					rgba:app.bg2_1color
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			Image:
+				anim_delay:0.08
+				anim_loop:-1
+				allow_stretch:True
+				size:root.size
+				source:app.gif_file_path1
+
+		Screen:
+			name:'stage2_2_screen'
+			canvas.before:
+				Color:
+					rgba:app.bg2_2color
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			Image:
+				anim_delay:0.08
+				anim_loop:-1
+				allow_stretch:True
+				size:root.size
+				source:app.gif_file_path2
+		
+		
+		Screen:
+			name:'stage2_3_screen'
+			canvas.before:
+				Color:
+					rgba:app.bg2_3color
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			Image:
+				anim_delay:0.08
+				anim_loop:-1
+				allow_stretch:True
+				size:root.size
+				source:app.gif_file_path3
+
+
+####################################################  STAGE 3  #############################################
+
+		Screen:
+			name:'stage3'
+			on_enter:
+				#sm.current = 'stage3_1_screen'
+				#app.init_stage3()
+				pass
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			BoxLayout:
+				orientation:'vertical'
+				spacing:10
+				padding:30
+				Button:
+					text:"To page 1"
+					background_normal:"go_to_page1.jpeg"
+					on_release:
+						sm.current="stage3_1_screen"
+				Button:
+					text:"To page 2"
+					background_normal:"go_to_page2.jpeg"
+					on_release:
+						sm.current="stage3_2_screen"
+				Button:
+					text:"To page 3"
+					#background_normal:"go_to_page3.jpeg"
+					on_release:
+						sm.current="stage3_3_screen"
+				Button:
+					text:"To page 4"
+					#background_normal:"go_to_page4.jpeg"
+					on_release:
+						sm.current="stage3_4_screen"
+				Button:
+					text:"Emergency"
+					background_normal:"emergency.jpeg"
+					color:1,0,0,1
+					on_release:
+						sm.current="emergency"
+		Screen:
+			name:"emergency"
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			MDLabel:
+				text:"Call 911"
+				halign:"center"
+				font_style:"H4"
+				theme_text_color:"Custom"
+				text_color:app.theme_cls.primary_color
+				
+			MDIconButton:
+				text:'Back'
+				icon:"keyboard-backspace"
+				md_bg_color:app.theme_cls.primary_color
+				pos_hint:{"center_y":0.9,"center_x":0.18}
+				on_release:
+					sm.current="stage3"
+				
+		Screen:
+			name:'stage3_1_screen'
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			Image:
+				anim_delay:0.08
+				anim_loop:-1
+				allow_stretch:True
+				size:root.size
+				source:"alphabets.GIF"
+				
+			MDIconButton:
+				text:'Back'
+				icon:"keyboard-backspace"
+				md_bg_color:app.theme_cls.primary_color
+				pos_hint:{"center_y":0.9,"center_x":0.18}
+				on_release:
+					sm.current="stage3"
+
+		Screen:
+			name:'stage3_2_screen'
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			Image:
+				anim_delay:0.08
+				anim_loop:-1
+				allow_stretch:True
+				size:root.size
+				source:"Numbers.GIF"
+				
+			MDIconButton:
+				text:'Back'
+				icon:"keyboard-backspace"
+				md_bg_color:app.theme_cls.primary_color
+				pos_hint:{"center_y":0.9,"center_x":0.18}
+				on_release:
+					sm.current="stage3"
+		
+		
+		Screen:
+			name:'stage3_3_screen'
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			Image:
+				anim_delay:0.08
+				anim_loop:-1
+				allow_stretch:True
+				size:root.size
+				source:"apple_eat.GIF"
+				
+			MDIconButton:
+				text:'Back'
+				icon:"keyboard-backspace"
+				md_bg_color:app.theme_cls.primary_color
+				pos_hint:{"center_y":0.9,"center_x":0.18}
+				on_release:
+					sm.current="stage3"
+				
+		Screen:
+			name:'stage3_4_screen'
+			canvas.before:
+				Color:
+					rgba:0,0,0,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+			Image:
+				anim_delay:0.08
+				anim_loop:-1
+				allow_stretch:True
+				size:root.size
+				source:"book_pencil.GIF"
+
+			MDIconButton:
+				text:'Back'
+				icon:"keyboard-backspace"
+				md_bg_color:app.theme_cls.primary_color
+				pos_hint:{"center_y":0.9,"center_x":0.18}
+				on_release:
+					sm.current="stage3"
+
+	MDIconButton:
+		text:"Exit"
+		icon:'close'
+		pos_hint:{"top":1,"right":1}
+		theme_text_color:"Error"
+		on_release:exit()
